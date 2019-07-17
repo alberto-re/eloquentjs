@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Elements by tag name</title>
+    </head>
+    <body>
+        <h1>My home page</h1>
+        <p>Hello, I am Marijn and this is my home page.</p>
+        <p>I also wrote a book! Read it
+            <a href="http://eloquentjavascript.net">here</a>.</p>
+        <script>
+            function getElementsByTagName(node, tagName) {
+                let res = [];
+                if (node.childNodes) {
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        if (node.childNodes[i].nodeName.toLowerCase() === tagName) {
+                            res.push(node.childNodes[i]);
+                        }
+                        res = res.concat(getElementsByTagName(node.childNodes[i], tagName));
+                    }
+                }
+                return res;
+            }
+        </script>
+    </body>
+</html>

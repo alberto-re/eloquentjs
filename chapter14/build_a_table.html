@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Build a table</title>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+    </style>
+    </head>
+    <body>
+        <div id="mountains"></div>
+        <script>
+            const mountains = [
+                { name: 'Kilimangiaro', height: 5895, place: 'Tanzania'},
+                { name: 'Nanga Parbat', height: 8126, place: 'Pakistan'},
+                { name: 'Lhotse', height: 8516, place: 'Nepal'}
+            ]
+
+            let table = document.createElement('table');
+
+            let header = document.createElement('tr');
+            for (let field in mountains[0]) {
+                let col = document.createElement('th');
+                let text = document.createTextNode(field);
+                col.appendChild(text);
+                header.appendChild(col);
+            }
+            table.appendChild(header);
+
+            let colWithNumbers = {};
+
+            for (let mountain of mountains) {
+                let row = document.createElement('tr');
+                for (let field in mountain) {
+
+                    if (/^\d+$/.exec(mountain[field])) {
+                        colWithNumbers[field] = null;
+                    }
+
+                    let col = document.createElement('td');
+                    col.className = field;
+                    let text = document.createTextNode(mountain[field]);
+                    col.appendChild(text);
+                    row.appendChild(col);
+                }
+                table.appendChild(row);
+            }
+
+            document.getElementById('mountains').appendChild(table);
+
+            for (let col in colWithNumbers) {
+                let cellList = document.querySelectorAll(`.${col}`)
+                for (let i = 0; i < cellList.length; i++) {
+                    cellList[i].style.textAlign = 'right';
+                }
+            }
+        </script>
+    </body>
+</html>

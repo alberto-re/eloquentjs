@@ -1,0 +1,30 @@
+{
+  "name": "eloquentjs",
+  "version": "1.0.0",
+  "description": "Solutions for the exercises from the book 'Eloquent JavaScript, 3rd Edition'",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/proud/eloquentjs.git"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint chapter*/*.js",
+    "test": "node ./node_modules/mocha/bin/mocha"
+  },
+  "keywords": [],
+  "author": "Alberto Re <alberto.re@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://github.com/proud/eloquentjs#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.0.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^6.1.4"
+  },
+  "dependencies": {
+    "rewire": "^4.0.1"
+  }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The cat's hat</title>
+    </head>
+    <body>
+        <p style="text-align: center;">
+            <img src="cat.png" id="cat" style="position: absolute; margin-top: 100px; margin-left: 300px;">
+            <img src="hat.png" id="hat" style="position: absolute; margin-top: 100px; margin-left: 300px;">
+        </p>
+        <script>
+            let cat = document.querySelector("#cat");
+            
+            let angleCat = Math.PI / 2;
+            function animateCat(time, lastTime) {
+                if (lastTime != null) {
+                    angleCat += (time - lastTime) * 0.001;
+                }
+                cat.style.top = (Math.sin(angleCat) * 20) + "px";
+                cat.style.left = (Math.cos(angleCat) * 200) + "px";
+                requestAnimationFrame(newTime => animateCat(newTime, time));
+            }
+            requestAnimationFrame(animateCat);
+
+            let angleHat = Math.PI / 2;
+            function animateHat(time, lastTime) {
+                if (lastTime != null) {
+                    angleHat -= (time - lastTime) * 0.001;
+                }
+                hat.style.top = (Math.sin(angleHat) * 20) + "px";
+                hat.style.left = (Math.cos(angleHat) * 200) + "px";
+                requestAnimationFrame(newTime => animateHat(newTime, time));
+            }
+            requestAnimationFrame(animateHat);
+        </script>
+    </body>
+</html>

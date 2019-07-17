@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <title>Balloon</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <div id="container" style="font-size: 20px;">🎈</div>
+    <script>
+        const inflateDeflateBalloon = function (event) {
+            if (event.key == "ArrowUp") {
+                const node = document.getElementById("container");
+                const newSize = parseInt(node.style.fontSize) * 1.1;
+                if (newSize < 50) {
+                    node.style.fontSize = `${newSize}px`;
+                } else {
+                    node.firstChild.textContent = '💥';
+                    window.removeEventListener("keydown", inflateDeflateBalloon);
+                }
+                event.preventDefault();
+            } else if (event.key == "ArrowDown") {
+                const node = document.getElementById("container");
+                const newSize = parseInt(node.style.fontSize) * 0.9;
+                if (newSize > 10) {
+                    node.style.fontSize = `${newSize}px`;
+                }
+                event.preventDefault();
+            }
+        }
+        window.addEventListener("keydown", inflateDeflateBalloon);
+    </script>
+</body>

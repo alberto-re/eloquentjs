@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Content Negotiation</title>
+    </head>
+    <body>
+        <script>
+            let url = 'http://eloquentjavascript.net/author'
+            let contentTypes = ['application/json', 'text/plain', 'text/html', 'application/rainbows+unicorns']
+            for (let [index, cType] of Object.entries(contentTypes)) {
+                fetch(url, { headers: { 'Accept': cType } })
+                .then((res) => {
+                    return res.text()
+                })
+                .then((body) => {
+                    console.log(body)
+                })
+            }
+        </script>
+    </body>
+</html>

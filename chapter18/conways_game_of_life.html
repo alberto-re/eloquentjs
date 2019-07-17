@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Conway's Game of Life</title>
+        <style>
+            #grid {
+                border: 1px solid black;
+                margin-right: auto;
+                margin-left: auto;
+            }
+
+            #grid td {
+                padding: 0px;
+                margin: 0px;
+            }
+
+            #grid input {
+                padding: 3px;
+                margin: 3px;
+            }
+
+            #command {
+                margin: 20px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id ="command">
+            Rows: <input type="text" value="5" id="rows" onchange="reshape()" />
+            Columns: <input type="text" value="5" id="columns" onchange="reshape()" />
+            <input type="button" value="Next" onclick="advance()" />
+            <input type="button" value="Reset" onclick="reset()" />
+            <input type="button" value="Clear" onclick="empty()" />
+        </div>
+        <div">
+            <table id="grid"></table>
+        </div>
+        <script>
+            class State {
+                
+                constructor(rows, columns) {
+                    this.rows = rows;
+                    this.columns = columns;
+                    this._matrix = null;
+                    this.init();
+                }
+
+                init() {
+                    this._matrix = [];
+                    for (let i = 0; i < this.rows; i++) {
+                        let row = [];
+                        for (let j = 0; j < this.columns; j++) {
+                            row.push(Math.random() >= 0.5 ? 1 : 0);
+                        }
+                        this._matrix.push(row);
+                    }
+                }
+
+                clear() {
+                    for (let i = 0; i < this.rows; i++) {
+                        for (let j = 0; j < this.columns; j++) {
+                            this._matrix[i][j] = 0;
+                        }
+                    }
+                }
+
+                nextgen() {
+                    let initialMatrix = [];
+                    for (let i = 0; i < this.rows; i++) {
+                        initialMatrix.push([]);
+                        for (let j = 0; j < this.columns; j++) {
+                            initialMatrix[i].push(this._matrix[i][j]);
+                        }
+                    }
+                    for (let i = 0; i < this.rows; i++) {
+                        for (let j = 0; j < this.columns; j++) {
+                            let neighbors = 0;
+                            let prevRow = i > 0 ? i - 1 : this.rows - 1;
+                            let nextRow = i + 1 < this.rows ? i + 1 : 0;
+                            let prevCol = j > 0 ? j - 1 : this.columns - 1;
+                            let nextCol = j + 1 < this.columns ? j + 1 : 0;
+                            neighbors += initialMatrix[prevRow][prevCol];
+                            neighbors += initialMatrix[prevRow][j];
+                            neighbors += initialMatrix[prevRow][nextCol];
+                            neighbors += initialMatrix[i][prevCol];
+                            neighbors += initialMatrix[i][nextCol];
+                            neighbors += initialMatrix[nextRow][prevCol];
+                            neighbors += initialMatrix[nextRow][j];
+                            neighbors += initialMatrix[nextRow][nextCol];
+                            if (neighbors < 2 || neighbors > 3) {
+                                this._matrix[i][j] = 0;
+                            } else if (neighbors === 3) {
+                                this._matrix[i][j] = 1;
+                            }
+                        }
+                    }
+                }
+
+                get matrix() {
+                    return this._matrix;
+                }
+
+                swapState(i, j) {
+                    this._matrix[i][j] = this._matrix[i][j] === 0 ? 1 : 0;
+                }
+            }
+
+            function initGrid(rows, columns) {
+                let table = document.getElementById('grid');
+                while (table.firstChild) {
+                    table.removeChild(table.firstChild);
+                }
+                for (let i = 0; i < rows; i++) {
+                    let row = document.createElement('tr');
+                    for (let j = 0; j < columns; j++) {
+                        let column = document.createElement('td');
+                        let checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `cell_${(columns * i) + j}`;
+                        checkbox.onclick = function(e) {
+                            state.swapState(i, j);
+                        }
+                        column.appendChild(checkbox);
+                        row.appendChild(column);
+                    }
+                    table.appendChild(row);
+                }
+            }
+
+            function updateGrid() {
+                for (let i = 0; i < rows; i++) {
+                    for (let j = 0; j < columns; j++) {
+                        let cell = document.getElementById(`cell_${(columns * i) + j}`);
+                        cell.checked = state.matrix[i][j];
+                    }
+                }
+            }
+
+            function reset() {
+                state.init();
+                updateGrid();
+            }
+
+            function advance() {
+                state.nextgen();
+                updateGrid();
+            }
+
+            function empty() {
+                state.clear();
+                updateGrid();
+            }
+
+            function reshape() {
+                rows = parseInt(document.getElementById('rows').value);
+                columns = parseInt(document.getElementById('columns').value);
+                state = new State(rows, columns);
+                initGrid(rows, columns);
+                updateGrid();
+            }
+
+            let shape = null;
+            let rows = null;
+            let columns = null;
+            let state = null;
+            reshape();
+        </script>
+    </body>
+</html>

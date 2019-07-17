@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>A Javascript Workbench</title>
+    </head>
+    <body>
+        <script>
+            function eval() {
+                let sandbox = Function('', document.getElementById('code').value);
+                let output = '';
+                try {
+                    output = sandbox();
+                } catch(err) {
+                    output = err.message;
+                }
+                document.getElementById('output').innerText = output;
+            }
+        </script>
+        <textarea id="code">return 1 + 2;</textarea>
+        <br />
+        <input type="submit" onclick="eval()" />
+        <div id="output"></div>
+    </body>
+</html>

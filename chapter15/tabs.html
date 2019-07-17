@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+    <title>Tabs</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <script>
+        const tailLength = 20;
+
+        let xs = [];
+        let ys = [];
+
+        for (let i = 0; i < tailLength; i++) {
+            xs.push(0);
+            ys.push(0);
+        }
+
+        const followMouse = function (event) {
+            let tail = document.querySelectorAll('div');
+            if (tail.length === 0) {
+                console.log('creo')
+                for (let i = 0; i < tailLength; i++) {
+                    console.log(i)
+                    const tailPart = document.createElement('div');
+                    tailPart.style.backgroundColor = `red`
+                    tailPart.style.width = `${i}px`
+                    tailPart.style.height = `${i}px`
+                    tailPart.style.position = 'fixed'
+                    document.body.appendChild(tailPart);
+                }
+                tail = document.querySelectorAll('div');
+                console.log(tail)
+            }
+
+            for (let i = 0; i < tailLength - 1; i++) {
+                xs[i] = xs[i + 1];
+                ys[i] = ys[i + 1];
+            }
+            xs[tailLength - 1] = event.clientX
+            ys[tailLength - 1] = event.clientY
+
+            for (let i = 0; i < tailLength; i++) {
+                tail[i].style.top = `${ys[i]}px`;
+                tail[i].style.left = `${xs[i]}px`;
+            }
+        }
+        window.addEventListener('mousemove', followMouse);
+    </script>
+</body>
